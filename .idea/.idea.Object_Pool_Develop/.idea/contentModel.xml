@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\chino\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\chino\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_Object_Pool_Develop.-1749516003.00" t="ExcludeRecursive" />
+    <e p="G:\UnityProject\Object_Pool_Develop" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="_package_" t="Include">
+          <e p="Editor" t="Include">
+            <e p="_generate_" t="Include">
+              <e p="PackagePath.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Runtime" t="Include">
+            <e p="ObjectPool.Runtime.asmdef" t="Include" />
+            <e p="Pool.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Object_Pool_Develop.sln" t="IncludeFlat" />
+      <e p="ObjectPool.csproj" t="IncludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\Bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
