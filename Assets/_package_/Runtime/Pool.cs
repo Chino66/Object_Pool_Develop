@@ -7,13 +7,13 @@ namespace ObjectPool
 {
     public class Pool<T>
     {
-        private readonly Queue<T> _queue;
+        protected readonly Queue<T> _queue;
 
-        private Func<T> _createFunc;
+        protected Func<T> CreateFunc;
 
-        private Action<T> _getAction;
+        protected Action<T> GetAction;
 
-        private Action<T> _returnAction;
+        protected Action<T> ReturnAction;
 
         public Pool()
         {
@@ -22,55 +22,49 @@ namespace ObjectPool
 
         public Pool<T> SetCreateFunc(Func<T> func)
         {
-            _createFunc = func;
+            CreateFunc = func;
             return this;
         }
 
         public Pool<T> SetGetAction(Action<T> action)
         {
-            _getAction = action;
+            GetAction = action;
             return this;
         }
 
         public Pool<T> SetReturnAction(Action<T> action)
         {
-            _returnAction = action;
+            ReturnAction = action;
             return this;
         }
 
-        private T Create()
+        protected virtual T Create()
         {
-            return _createFunc.Invoke();
+            return CreateFunc.Invoke();
         }
 
-        public T Get()
+        public virtual T Get()
         {
-            T item;
-            if (_queue.Count > 0)
-            {
-                item = _queue.Dequeue();
-            }
+            var item = _queue.Count > 0 ? _queue.Dequeue() : Create();
 
-            item = Create();
-
-            _getAction?.Invoke(item);
+            GetAction?.Invoke(item);
 
             return item;
         }
 
-        public void Return(T item)
+        public virtual void Return(T item, bool checkContains = false)
         {
             if (item == null)
             {
                 return;
             }
 
-            if (_queue.Contains(item))
+            if (checkContains && _queue.Contains(item))
             {
                 return;
             }
 
-            _returnAction?.Invoke(item);
+            ReturnAction?.Invoke(item);
 
             _queue.Enqueue(item);
         }

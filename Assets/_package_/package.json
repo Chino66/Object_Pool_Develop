@@ -1,7 +1,7 @@
 {
   "name": "com.chino.object.pool",
   "displayName": "Object Pool",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "2020.1",
   "description": "对象池工具包",
   "type": "lib",
