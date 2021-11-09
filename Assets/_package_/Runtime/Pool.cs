@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ObjectPool
 {
-    public class Pool<T>
+    public abstract class Pool<T>
     {
         protected readonly Queue<T> _queue;
 
