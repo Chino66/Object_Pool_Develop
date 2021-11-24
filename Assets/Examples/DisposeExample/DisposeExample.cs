@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Examples.DisposeExample;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public class DisposeExample : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DisposeExample : MonoBehaviour
     {
         _list = new List<DisposeItem>(count);
         _poolableItems = new List<PoolableItem>(count);
+        Application.targetFrameRate = 60;
     }
 
     private void OnGUI()
@@ -46,9 +48,15 @@ public class DisposeExample : MonoBehaviour
     {
         if (GUILayout.Button("get PoolableItem"))
         {
-            var item = PoolableItem.Pool.Get();
-            item.Name = "001";
-            Debug.Log($"item name is {item.Name}");
+            Profiler.BeginSample("get PoolableItem");
+            for (int i = 0; i < 512; i++)
+            {
+                var item = PoolableItem.Pool.Get();
+                item.Name = "001";
+            }
+
+            Profiler.EndSample();
+//            Debug.Log($"item name is {item.Name}");
         }
 
         if (GUILayout.Button("get PoolableItem2"))

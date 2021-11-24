@@ -1,5 +1,8 @@
 using System;
 using ObjectPool;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Examples.DisposeExample
 {
@@ -25,12 +28,14 @@ namespace Examples.DisposeExample
 
         public void Dispose()
         {
+//            Debug.Log("public void Dispose()");
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         ~PoolableItem()
         {
+//            Debug.Log("~PoolableItem()");
             Dispose(false);
         }
 
@@ -45,11 +50,11 @@ namespace Examples.DisposeExample
 
             if (rst)
             {
+                GC.ReRegisterForFinalize(this);
                 return;
             }
 
             _disposed = true;
-
             if (disposing)
             {
                 // todo dispose something
