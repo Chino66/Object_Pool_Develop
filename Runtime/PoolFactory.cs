@@ -25,12 +25,12 @@ namespace ObjectPool
         {
             if (_queue.Count > 0)
             {
-                Debug.Log("Get");
+//                Debug.Log("Get");
                 var item = _queue.Dequeue();
                 return item;
             }
 
-            Debug.Log("Constructor");
+//            Debug.Log("Constructor");
             return new T();
         }
 
@@ -38,12 +38,13 @@ namespace ObjectPool
         {
             if (AllowRecycle == false)
             {
+//                Debug.Log($"When return {typeof(T).Name} instance, AllowRecycle is {MaxSize}");
                 return false;
             }
 
-            if (_queue.Count >= MaxSize)
+            if (_queue.Count > MaxSize)
             {
-                Debug.Log($"When return {typeof(T).Name} instance the queue is full, MaxSize is {MaxSize}");
+//                Debug.Log($"When return {typeof(T).Name} instance the queue is full, MaxSize is {MaxSize}");
                 return false;
             }
 
