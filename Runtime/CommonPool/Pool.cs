@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ObjectPool
 {
-    public abstract class Pool<T>
+    public class Pool<T>
     {
         protected readonly Queue<T> _queue;
 
@@ -15,9 +15,22 @@ namespace ObjectPool
 
         protected Action<T> ReturnAction;
 
+        public int Count => _queue.Count;
+
+        public int GetCount { get; private set; }
+        public int ReuseCount { get; private set; }
+        public int CreateCount { get; private set; }
+        public int ReturnCount { get; private set; }
+
         public Pool()
         {
             _queue = new Queue<T>();
+        }
+
+        public string Information()
+        {
+            return
+                $"Count is {Count}, GetCount is {GetCount}, ReuseCount is {ReuseCount}, CreateCount is {CreateCount}, ReturnCount is {ReturnCount}";
         }
 
         public Pool<T> SetCreateFunc(Func<T> func)
@@ -40,12 +53,29 @@ namespace ObjectPool
 
         protected virtual T Create()
         {
+            CreateCount++;
+            if (CreateFunc == null)
+            {
+                return System.Activator.CreateInstance<T>();
+            }
+
             return CreateFunc.Invoke();
         }
 
         public virtual T Get()
         {
-            var item = _queue.Count > 0 ? _queue.Dequeue() : Create();
+            GetCount++;
+
+            T item;
+            if (_queue.Count > 0)
+            {
+                ReuseCount++;
+                item = _queue.Dequeue();
+            }
+            else
+            {
+                item = Create();
+            }
 
             GetAction?.Invoke(item);
 
@@ -64,6 +94,7 @@ namespace ObjectPool
                 return;
             }
 
+            ReturnCount++;
             ReturnAction?.Invoke(item);
 
             _queue.Enqueue(item);
