@@ -21,6 +21,9 @@ namespace ObjectPool
         public int CreateCount { get; protected set; }
         public int ReturnCount { get; protected set; }
 
+        public int AutoRecycleCount { get; protected set; }
+        public int RecycleCount { get; protected set; }
+
         public PoolFactory()
         {
             Initialize(MaxSize);
@@ -36,12 +39,6 @@ namespace ObjectPool
             MaxSize = capacity;
             _queue = new Queue<T>(InitializeSize);
             GetCount = CreateCount = ReturnCount = 0;
-        }
-
-        public string Information()
-        {
-            return
-                $"Count is {Count}, GetCount is {GetCount}, ReuseCount is {ReuseCount}, CreateCount is {CreateCount}, ReturnCount is {ReturnCount}";
         }
 
         public T Get()
@@ -79,6 +76,7 @@ namespace ObjectPool
 
         public bool AutoRecycle(T t)
         {
+            AutoRecycleCount++;
             var rst = Return(t);
 
             if (rst)
@@ -87,6 +85,12 @@ namespace ObjectPool
             }
 
             return rst;
+        }
+        
+        public string Information()
+        {
+            return
+                $"Count is {Count}, GetCount is {GetCount}, ReuseCount is {ReuseCount}, CreateCount is {CreateCount}, ReturnCount is {ReturnCount}, ";
         }
     }
 }
