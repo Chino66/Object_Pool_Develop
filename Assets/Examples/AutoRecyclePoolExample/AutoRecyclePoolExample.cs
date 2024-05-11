@@ -99,6 +99,8 @@ public class AutoRecyclePoolExample : MonoBehaviour
             item.Name = $"item{item.Id}";
             item.Id++;
             Debug.Log($"{item.ToString()}");
+            
+            PoolDatabase.Return(item);
 
             // 使用完后可以不用主动回收,当GC释放实例时,将自动回收,缺点是时间点不可控
         }
